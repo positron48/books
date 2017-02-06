@@ -1,0 +1,11 @@
+nav .brand-logo{
+    background-image: url(../images/books.png);
+    width: 64px;
+    height: 64px;
+    background-size: contain;
+    padding-left:65px;
+}
+
+footer.page-footer{
+    padding-top:0;
+}
