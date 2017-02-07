@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'library.authors.new'|trans({}, 'main') }}{% endblock %}
+
+{% block body %}
+
+    <h2>{{ 'library.authors.new'|trans({}, 'main') }}</h2>
+
+    <a href="{{ path('authors') }}">{{ 'library.authors.title'|trans({}, 'main') }}</a>
+
+    <br/><br/>
+
+    {% if message %}
+        <div class="chip red lighten-4">
+            {{ message|trans({}, 'main') }}
+            <i class="close material-icons">close</i>
+        </div>
+    {% endif %}
+
+    <div class="section">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <input type="submit" class="waves-effect waves-light btn light-green" value="{{ 'save'|trans({}, 'main') }}">
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

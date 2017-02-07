@@ -1,1 +1,16 @@
-library.name: Book library
+welcome: Welcome!
+save: Save
+library:
+  name: Book library
+  authors:
+    title: Authors
+    not_found: Authors not found.
+    new: New author
+    saved: Author '%name%' created
+    exists: Author already exists
+  books:
+    title: Books
+    not_found: Books not found.
+    new: New book
+    saved: Book '%name%' created
+    exists: Book already exists

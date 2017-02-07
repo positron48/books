@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'form/materialize.html.twig' %}
+
+
+{% block title %}{{ 'library.books.new'|trans({}, 'main') }}{% endblock %}
+
+{% block body %}
+
+    <h2>{{ 'library.books.new'|trans({}, 'main') }}</h2>
+
+    <a href="{{ path('books') }}">{{ 'library.books.title'|trans({}, 'main') }}</a>
+
+    <br/><br/>
+
+
+    {% if message %}
+        <div class="chip red lighten-4">
+            {{ message|trans({}, 'main') }}
+            <i class="close material-icons">close</i>
+        </div>
+    {% endif %}
+
+
+    <div class="section">
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        {# form_widget(form) #}
+
+        {{ form_row(form.name) }}
+
+        {{ form_errors(form.cover) }}
+        {{ form_widget(form.cover) }}
+
+        {{ form_errors(form.file) }}
+        {{ form_widget(form.file) }}
+
+        {{ form_row(form.date_read) }}
+
+        {{ form_row(form.authors) }}
+
+        {{ form_errors(form.allow_download) }}
+        {{ form_widget(form.allow_download) }}
+        {{ form_label(form.allow_download) }}
+
+        <br><br>
+        <input type="submit" class="waves-effect waves-light btn light-green" value="{{ 'save'|trans({}, 'main') }}">
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            $('.datepicker').pickadate({
+                selectMonths: true,
+                selectYears: 15
+            });
+            $('select').material_select();
+        });
+        jQuery.extend( jQuery.fn.pickadate.defaults, {
+            monthsFull: [ 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря' ],
+            monthsShort: [ 'янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек' ],
+            weekdaysFull: [ 'воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота' ],
+            weekdaysShort: [ 'вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб' ],
+            today: 'сегодня',
+            clear: 'удалить',
+            close: 'X',
+            firstDay: 1,
+            format: 'yyyy-mm-dd'
+        });
+    </script>
+
+{% endblock %}

@@ -1,1 +1,14 @@
-library.name: Библиотека
+welcome: Привет!
+save: Сохранить
+library:
+  name: Библиотека
+  authors:
+    title: Авторы
+    not_found: Авторы не найдены.
+    new: Новый автор
+    exists: Автор с таким именем уже существует
+  books:
+    title: Книги
+    not_found: Книги не найдены.
+    new: Новая книга
+    exists: Книга с таким именем уже существует

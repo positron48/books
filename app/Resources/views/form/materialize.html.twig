@@ -1,0 +1,21 @@
+
+{% block file_widget %}
+    <div class="file-field input-field">
+        <div class="btn">
+            <span>{{ name }}</span>
+            <input type="file">
+            <input type="file" id="{{ id }}" name="{{ full_name }}" {% if required %} required="required" {% endif %}>
+        </div>
+        <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+        </div>
+    </div>
+{% endblock %}
+
+{% block date_widget %}
+    <input type="date" class="datepicker" name="{{ full_name }}" id="{{ id }}">
+{% endblock %}
+
+{% block checkbox_widget %}
+    <input type="checkbox" id="{{ id }}" name="{{ full_name }}">
+{% endblock %}

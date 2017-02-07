@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'library.authors.title'|trans({}, 'main') }}{% endblock %}
+
+{% block body %}
+
+    <h2>{{ 'library.authors.title'|trans({}, 'main') }}</h2>
+
+    <a href="{{ path('new_author') }}">{{ 'library.authors.new'|trans({}, 'main') }}</a>
+    
+    <div class="section">
+        <table class="bordered stripped">
+            {% for author in authors %}
+                <tr>
+                    <td>{{ author.name }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>{{ 'library.authors.not_found'|trans({}, 'main') }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}
