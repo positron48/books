@@ -25,7 +25,7 @@ class Author
     protected $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Book", mappedBy="authors")
+     * @ORM\ManyToMany(targetEntity="Book", mappedBy="authors", fetch="EAGER")
      */
     protected $books;
 

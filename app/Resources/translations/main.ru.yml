@@ -1,5 +1,6 @@
 welcome: Привет!
 save: Сохранить
+download: Скачать
 library:
   name: Библиотека
   authors:
@@ -12,3 +13,4 @@ library:
     not_found: Книги не найдены.
     new: Новая книга
     exists: Книга с таким именем уже существует
+    read: Прочитана

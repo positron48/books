@@ -19,8 +19,8 @@ class FileUploader
         $subDir = substr($fileName, 0, 2);
         $fileName = substr($fileName, 2, mb_strlen($fileName)-2);
 
-        $file->move($this->targetDir.'/'.$subDir, $subDir.$fileName);
+        $file->move($this->targetDir.'/'.$subDir, $fileName);
 
-        return $fileName;
+        return $subDir.'/'.$fileName;
     }
 }

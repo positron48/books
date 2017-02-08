@@ -25,8 +25,11 @@ class Book
     protected $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Author", inversedBy="books")
-     * @ORM\JoinTable(name="books_authors")
+     * @ORM\ManyToMany(targetEntity="Author", inversedBy="books", fetch="EAGER")
+     * @ORM\JoinTable(name="books_authors",
+     *      joinColumns={@ORM\JoinColumn(name="book_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="author_id", referencedColumnName="id")}
+     *  )
      */
     protected $authors;
 
@@ -39,7 +42,15 @@ class Book
     /**
      * @ORM\Column(type="string")
      * @Assert\File(
-     *     mimeTypes={ "application/pdf", "application/msword", "text/plain", "application/x-pdf", "image/vnd.djvu", "application/octet-stream"},
+     *     mimeTypes={
+     *      "application/pdf",
+     *      "application/msword",
+     *      "text/plain",
+     *      "application/x-pdf",
+     *      "image/vnd.djvu",
+     *      "application/octet-stream",
+     *      "application/zip"
+     *     },
      *     maxSize="64M"
      * )
      */

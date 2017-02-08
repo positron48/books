@@ -40,6 +40,9 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        books_upload_dir: "/uploads/books"
+        covers_upload_dir: "/uploads/covers"
 
 # Doctrine Configuration
 doctrine:

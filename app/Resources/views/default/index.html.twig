@@ -7,17 +7,55 @@
     <a href="{{ path('new_book') }}">{{ 'library.books.new'|trans({}, 'main') }}</a>
 
     <div class="section">
-        <table class="bordered stripped">
+        <div class="row">
             {% for book in books %}
-                <tr>
-                    <td>{{ book.name }}</td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td>{{ 'library.books.not_found'|trans({}, 'main') }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
+                <div class="col s12 m6">
+                    <div class="card horizontal">
+                        <div class="card-image">
+                            <img src="{{ covers_upload_dir }}/{{ book.cover }}">
+                        </div>
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <div>
+                                    <b>{{ book.name }}</b>
+                                    <span class="right">
+                                        {% for author in book.authors %}
+                                            <div class="chip">
+                                                {{ author.name }}
+                                            </div>
+                                        {% endfor %}
+                                    </span>
+                                </div>
+                                <div class="ret">{{ 'library.books.read'|trans({}, 'main') }} {{ book.dateread|date('d.m.Y') }}</div>
+                            </div>
+                            {% if book.allowdownload %}
+                                <div class="card-action">
+                                    <a href="{{ books_upload_dir }}/{{ book.file }}" target="_blank">{{ 'download'|trans({}, 'main') }}</a>
 
+                                    <a href="{{ path('edit_book', {'id':book.id}) }}" target="_blank">Edit</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                {{ 'library.books.not_found'|trans({}, 'main') }}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .chip{
+            margin-left: 10px;
+        }
+        .card-image{
+            object-fit: cover;
+        }
+        .card-image img{
+            height: 200px;
+        }
+    </style>
 {% endblock %}

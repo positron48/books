@@ -1,5 +1,6 @@
 welcome: Welcome!
 save: Save
+download: Download
 library:
   name: Book library
   authors:
@@ -14,3 +15,4 @@ library:
     new: New book
     saved: Book '%name%' created
     exists: Book already exists
+    read: Read
