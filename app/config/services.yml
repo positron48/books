@@ -4,12 +4,18 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
   app.books_uploader:
     class: AppBundle\FileUploader
-    arguments: ['%books_upload_dir%']
+    arguments: ['%absolute_upload_dir%', '%books_upload_dir%']
   app.covers_uploader:
     class: AppBundle\FileUploader
-    arguments: ['%covers_upload_dir%']
+    arguments: ['%absolute_upload_dir%', '%covers_upload_dir%']
+  app.doctrine_brochure_listener:
+    class: AppBundle\EventListener\BookFileUploadListener
+    arguments: ['@app.covers_uploader', '@app.books_uploader']
+    tags:
+        - { name: doctrine.event_listener, event: prePersist }
+        - { name: doctrine.event_listener, event: preUpdate }
+  cache:
+    class: Doctrine\Common\Cache\FilesystemCache
+    arguments: ['%cache_dir%']

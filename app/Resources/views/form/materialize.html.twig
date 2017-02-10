@@ -1,21 +1,28 @@
 
 {% block file_widget %}
-    <div class="file-field input-field">
-        <div class="btn">
-            <span>{{ name }}</span>
-            <input type="file">
-            <input type="file" id="{{ id }}" name="{{ full_name }}" {% if required %} required="required" {% endif %}>
+    <div class="row">
+        <div class="col s11">
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>{{ name }}</span>
+                    <input type="file" id="{{ id }}" name="{{ full_name }}" {% if required %} required="required" {% endif %}>
+                </div>
+                <div class="file-path-wrapper">
+                    <input name="{{ name }}_title" id="{{ name }}_title" class="file-path validate" type="text"
+                           value="{% if data and data.filename %}{{ data.filename }}{% endif %}">
+                </div>
+            </div>
         </div>
-        <div class="file-path-wrapper">
-            <input class="file-path validate" type="text">
+        <div class="col s1">
+            <i class="red-text right small material-icons delete-item" data-id="{{ name }}_title" data-file-id="{{ id }}">delete</i>
         </div>
     </div>
 {% endblock %}
 
 {% block date_widget %}
-    <input type="date" class="datepicker" name="{{ full_name }}" id="{{ id }}">
+    <input type="date" class="datepicker" name="{{ full_name }}" id="{{ id }}" value="{{ value }}">
 {% endblock %}
 
 {% block checkbox_widget %}
-    <input type="checkbox" id="{{ id }}" name="{{ full_name }}">
+    <input type="checkbox" id="{{ id }}" name="{{ full_name }}" {% if data == true %}checked{% endif %}>
 {% endblock %}

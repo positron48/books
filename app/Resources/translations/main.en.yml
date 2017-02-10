@@ -1,6 +1,8 @@
 welcome: Welcome!
 save: Save
 download: Download
+not found: Page not found
+edit: Edit
 library:
   name: Book library
   authors:

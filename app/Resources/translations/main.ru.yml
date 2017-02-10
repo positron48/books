@@ -1,6 +1,8 @@
 welcome: Привет!
 save: Сохранить
 download: Скачать
+not found: Страница не найдена
+edit: Редактировать
 library:
   name: Библиотека
   authors:

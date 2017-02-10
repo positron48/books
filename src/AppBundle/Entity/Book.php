@@ -34,13 +34,13 @@ class Book
     protected $authors;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @Assert\Image()
      */
     protected $cover;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @Assert\File(
      *     mimeTypes={
      *      "application/pdf",

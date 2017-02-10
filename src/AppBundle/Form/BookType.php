@@ -18,14 +18,15 @@ class BookType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('cover', FileType::class)
-            ->add('file', FileType::class)
+            ->add('cover', FileType::class, ['required' => false])
+            ->add('file', FileType::class, ['required' => false])
             ->add('date_read', DateType::class, array(
                 'widget' => 'single_text',
-                'html5' => false
+                'html5' => false,
+                'required' => false
             ))
             ->add('allow_download')
-            ->add('authors');
+            ->add('authors', null, ['required' => false]);
     }
     
     /**

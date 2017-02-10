@@ -59,6 +59,26 @@
                 selectYears: 15
             });
             $('select').material_select();
+
+            $('.delete-item').click(function(){
+                $('#' + $(this).data('id')).val('');
+                $('#' + $(this).data('file-id')).val('');
+               toggleDeleteButton();
+            });
+
+            $('.file-path').change(function(){
+                toggleDeleteButton();
+            });
+
+            function toggleDeleteButton(){
+                $('.delete-item').each(function(i, elem){
+                    if($('#' + $(elem).data('id')).val() == ''){
+                        $(elem).hide();
+                    }else{
+                        $(elem).show();
+                    }
+                });
+            }
         });
         jQuery.extend( jQuery.fn.pickadate.defaults, {
             monthsFull: [ 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря' ],
@@ -72,5 +92,14 @@
             format: 'yyyy-mm-dd'
         });
     </script>
+{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .delete-item{
+            margin-top: 33px;
+            cursor: pointer;
+        }
+    </style>
 {% endblock %}

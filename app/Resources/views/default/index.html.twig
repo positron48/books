@@ -11,9 +11,11 @@
             {% for book in books %}
                 <div class="col s12 m6">
                     <div class="card horizontal">
-                        <div class="card-image">
-                            <img src="{{ covers_upload_dir }}/{{ book.cover }}">
-                        </div>
+                        {% if book.cover %}
+                            <div class="card-image">
+                                <img src="{{ covers_upload_dir }}/{{ book.cover }}">
+                            </div>
+                        {% endif %}
                         <div class="card-stacked">
                             <div class="card-content">
                                 <div>
@@ -28,11 +30,14 @@
                                 </div>
                                 <div class="ret">{{ 'library.books.read'|trans({}, 'main') }} {{ book.dateread|date('d.m.Y') }}</div>
                             </div>
-                            {% if book.allowdownload %}
+                            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") or (book.allowdownload and book.file) %}
                                 <div class="card-action">
-                                    <a href="{{ books_upload_dir }}/{{ book.file }}" target="_blank">{{ 'download'|trans({}, 'main') }}</a>
-
-                                    <a href="{{ path('edit_book', {'id':book.id}) }}" target="_blank">Edit</a>
+                                    {% if book.allowdownload and book.file %}
+                                        <a href="{{ books_upload_dir }}/{{ book.file }}" target="_blank">{{ 'download'|trans({}, 'main') }}</a>
+                                    {% endif %}
+                                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                        <a class="right" href="{{ path('edit_book', {'id':book.id}) }}">{{ 'edit'|trans({}, 'main') }}</a>
+                                    {% endif %}
                                 </div>
                             {% endif %}
                         </div>
