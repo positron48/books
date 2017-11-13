@@ -13,18 +13,21 @@ use AppBundle\Form\BookType;
 
 class BookController extends Controller
 {
+
+    const BOOKS_CACHE_KEY = 'books_cache';
+
     /**
      * @Route("/", name="books")
      */
     public function indexAction(Request $request)
     {
-        if ($data = $this->get('cache')->fetch('books')) {
+        if ($data = $this->get('cache')->fetch(self::BOOKS_CACHE_KEY)) {
             $books = unserialize($data);
         } else {
             $repository = $this->getDoctrine()->getRepository('AppBundle:Book');
             $books = $repository->findAll();
 
-            $this->get('cache')->save('books', serialize($books));
+            $this->get('cache')->save(self::BOOKS_CACHE_KEY, serialize($books));
         }
 
 
@@ -63,6 +66,8 @@ class BookController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($book);
             $em->flush();
+
+            $this->get('cache')->delete(self::BOOKS_CACHE_KEY);
 
             return $this->redirectToRoute('books');
         }
@@ -123,6 +128,8 @@ class BookController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($book);
             $em->flush();
+
+            $this->get('cache')->delete(self::BOOKS_CACHE_KEY);
 
             return $this->redirectToRoute('books');
         }
