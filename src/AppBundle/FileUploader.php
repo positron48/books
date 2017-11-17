@@ -6,10 +6,12 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class FileUploader
 {
     private $targetDirAbsolute;
+    private $targetDir;
 
     public function __construct($absoluteUploadPath, $targetDir)
     {
         $this->targetDirAbsolute = $absoluteUploadPath.'/'.$targetDir;
+        $this->targetDir = $targetDir;
     }
 
     public function upload(UploadedFile $file)
@@ -21,7 +23,7 @@ class FileUploader
 
         $file->move($this->targetDirAbsolute.'/'.$subDir, $fileName);
 
-        return $subDir.'/'.$fileName;
+        return $this->targetDir.'/'.$subDir.'/'.$fileName;
     }
 
     public function getAbsoluteTargetDir(){

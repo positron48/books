@@ -8,10 +8,9 @@ imports:
 parameters:
     locale: en
     cache_dir: '%kernel.root_dir%/../web/cache'
-    absolute_upload_dir: '%kernel.root_dir%/../web/uploads'
-    relative_upload_dir: '/uploads'
-    books_upload_dir: 'books'
-    covers_upload_dir: 'covers'
+    absolute_dir: '%kernel.root_dir%/../web/'
+    books_upload_dir: 'uploads/books'
+    covers_upload_dir: 'uploads/covers'
 
 framework:
     #esi:             ~
@@ -43,9 +42,6 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-    globals:
-        books_upload_dir: "/uploads/books"
-        covers_upload_dir: "/uploads/covers"
 
 # Doctrine Configuration
 doctrine:

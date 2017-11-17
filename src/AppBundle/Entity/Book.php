@@ -4,10 +4,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="books")
+ * @ORM\HasLifecycleCallbacks
  */
 class Book
 {
@@ -230,5 +232,18 @@ class Book
 
     public function __toString(){
         return $this->name;
+    }
+
+    /**
+     * @ORM\PostRemove
+     */
+    public function removeFiles()
+    {
+        $fs = new Filesystem();
+        $files = array_filter([$this->cover, $this->file]);
+
+        if(count($files)){
+            $fs->remove($files);
+        }
     }
 }

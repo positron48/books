@@ -13,7 +13,7 @@
                     <div class="card horizontal">
                         {% if book.cover %}
                             <div class="card-image">
-                                <img src="{{ covers_upload_dir }}/{{ book.cover }}">
+                                <img src="{{ book.cover }}">
                             </div>
                         {% endif %}
                         <div class="card-stacked">
@@ -33,9 +33,10 @@
                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") or (book.allowdownload and book.file) %}
                                 <div class="card-action">
                                     {% if book.allowdownload and book.file %}
-                                        <a href="{{ books_upload_dir }}/{{ book.file }}" target="_blank">{{ 'download'|trans({}, 'main') }}</a>
+                                        <a href="{{ book.file }}" target="_blank">{{ 'download'|trans({}, 'main') }}</a>
                                     {% endif %}
                                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                        <a class="right" href="{{ path('delete_book', {'id':book.id}) }}">⨯</a>
                                         <a class="right" href="{{ path('edit_book', {'id':book.id}) }}">{{ 'edit'|trans({}, 'main') }}</a>
                                     {% endif %}
                                 </div>

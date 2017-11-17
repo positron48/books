@@ -6,10 +6,10 @@ parameters:
 services:
   app.books_uploader:
     class: AppBundle\FileUploader
-    arguments: ['%absolute_upload_dir%', '%books_upload_dir%']
+    arguments: ['%absolute_dir%', '%books_upload_dir%']
   app.covers_uploader:
     class: AppBundle\FileUploader
-    arguments: ['%absolute_upload_dir%', '%covers_upload_dir%']
+    arguments: ['%absolute_dir%', '%covers_upload_dir%']
   app.doctrine_brochure_listener:
     class: AppBundle\EventListener\BookFileUploadListener
     arguments: ['@app.covers_uploader', '@app.books_uploader']

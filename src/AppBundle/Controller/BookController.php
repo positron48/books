@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,22 +90,24 @@ class BookController extends Controller
         }else{
             $filePath = $book->getFile();
             if($filePath) {
-                $book->setFile(new File(
-                        $this->container->getParameter('absolute_upload_dir') . '/' .
-                        $this->container->getParameter('books_upload_dir') . '/' .
-                        $filePath)
-                );
+                try {
+                    $file = new File($this->container->getParameter('absolute_dir') . '/' . $filePath);
+                    $book->setFile($file);
+                }catch(FileException $ex){
+                    $book->setFile(null);
+                }
             }else{
                 $book->setFile(null);
             }
 
             $coverPath = $book->getCover();
             if($coverPath) {
-                $book->setCover(new File(
-                    $this->container->getParameter('absolute_upload_dir').'/'.
-                    $this->container->getParameter('covers_upload_dir').'/'.
-                    $coverPath)
-                );
+                try {
+                    $file = new File($this->container->getParameter('absolute_dir') . '/' . $coverPath);
+                    $book->setCover($file);
+                }catch(FileException $ex){
+                    $book->setCover(null);
+                }
             }else{
                 $book->setCover(null);
             }
@@ -127,6 +131,7 @@ class BookController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($book);
+
             $em->flush();
 
             $this->get('cache')->delete(self::BOOKS_CACHE_KEY);
@@ -135,5 +140,24 @@ class BookController extends Controller
         }
 
         return $this->render('default/books.new.html.twig', ['form' => $form->createView(), 'message' => false]);
+    }
+
+
+    /**
+     * @Route("/book/delete/{id}/", name="delete_book")
+     * @todo: проверка прав пользователя на удаление конкретной книги
+     */
+    public function deleteAction(Request $request, $id){
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Book');
+        $book = $repository->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($book);
+
+        $em->flush();
+
+        $this->get('cache')->delete(self::BOOKS_CACHE_KEY);
+
+        return $this->redirectToRoute('books');
     }
 }
