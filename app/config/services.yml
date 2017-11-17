@@ -10,6 +10,10 @@ services:
   app.covers_uploader:
     class: AppBundle\FileUploader
     arguments: ['%absolute_dir%', '%covers_upload_dir%']
+  twig.extension:
+    class: AppBundle\Twig\ResizeImageExtension
+    tags:
+      - { name: twig.extension }
   app.doctrine_brochure_listener:
     class: AppBundle\EventListener\BookFileUploadListener
     arguments: ['@app.covers_uploader', '@app.books_uploader']
