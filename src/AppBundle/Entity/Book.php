@@ -5,11 +5,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Filesystem\Filesystem;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="books")
  * @ORM\HasLifecycleCallbacks
+ * @ExclusionPolicy("none")
  */
 class Book
 {
@@ -55,6 +58,7 @@ class Book
      *     },
      *     maxSize="64M"
      * )
+     * @Exclude(if="!object.getAllowDownload()")
      */
     protected $file;
 
@@ -66,6 +70,7 @@ class Book
 
     /**
      * @ORM\Column(type="boolean")
+     * @Exclude
      */
     protected $allow_download;
 
@@ -78,6 +83,14 @@ class Book
     {
         $author->addBook($this);
         $this->authors[] = $author;
+    }
+
+    public function deleteAuthors()
+    {
+        foreach ($this->authors as $author) {
+            $author->removeBook($this);
+        }
+        $this->authors = null;
     }
 
     /**

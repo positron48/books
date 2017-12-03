@@ -4,10 +4,13 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="authors")
+ * @ExclusionPolicy("none")
  */
 class Author
 {
@@ -26,6 +29,7 @@ class Author
 
     /**
      * @ORM\ManyToMany(targetEntity="Book", mappedBy="authors", fetch="EAGER")
+     * @Exclude
      */
     protected $books;
 
