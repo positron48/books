@@ -33,6 +33,7 @@ class BookController extends Controller
 
     /**
      * @Route("/api/v1/books/", name="api_books")
+     * @var Book $book
      */
     public function apiBooksAction(Request $request)
     {
@@ -42,16 +43,13 @@ class BookController extends Controller
 
         $books = $this->getBooksList();
 
-        /**
-         * @var Book $book
-         */
-        $httpHost = $request->server->get('HTTP_HOST');
+        $siteUrl = $this->container->getParameter('site_url');
         foreach ($books as &$book) {
             if($book->getFile()){
-                $book->setFile('http://'.$httpHost.'/'.$book->getFile());
+                $book->setFile($siteUrl.'/'.$book->getFile());
             }
             if($book->getCover()){
-                $book->setCover('http://'.$httpHost.'/'.$book->getCover());
+                $book->setCover($siteUrl.'/'.$book->getCover());
             }
         }
         unset($book);
@@ -92,11 +90,7 @@ class BookController extends Controller
             $fileFileName = $this->get('app.books_uploader')->upload($file);
             $book->setFile($fileFileName);
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($book);
-            $em->flush();
-
-            $this->get('cache')->delete(self::BOOKS_CACHE_KEY);
+            $this->saveBook($book);
 
             return $this->redirectToRoute('books');
         }
@@ -137,11 +131,7 @@ class BookController extends Controller
                 return new JsonResponse(['success' => false, 'error' => 402, 'message' => 'Book with same name already exists']);
             }
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($book);
-            $em->flush();
-
-            $this->get('cache')->delete(self::BOOKS_CACHE_KEY);
+            $this->saveBook($book);
 
             $serializer = \JMS\Serializer\SerializerBuilder::create()
                 ->setExpressionEvaluator(new ExpressionEvaluator(new ExpressionLanguage()))
@@ -153,7 +143,6 @@ class BookController extends Controller
             return new JsonResponse(['success' => false, 'error' => 403, 'message' => 'Invalid parameters']);
         }
     }
-
 
     /**
      * @Route("/book/edit/{id}/", name="edit_book")
@@ -206,12 +195,7 @@ class BookController extends Controller
                 $book->setFile($filePath);
             }
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($book);
-
-            $em->flush();
-
-            $this->get('cache')->delete(self::BOOKS_CACHE_KEY);
+            $this->saveBook($book);
 
             return $this->redirectToRoute('books');
         }
@@ -219,9 +203,8 @@ class BookController extends Controller
         return $this->render('default/books.new.html.twig', ['form' => $form->createView(), 'message' => false]);
     }
 
-
     /**
-     * @Route("/api/v1/books/{id}/edit", name="new_api_book")
+     * @Route("/api/v1/books/{id}/edit", name="edit_api_book")
      * @var \AppBundle\Entity\Author $author
      * @var \AppBundle\Entity\Book $book
      */
@@ -254,11 +237,7 @@ class BookController extends Controller
 
         if($book->getName() && $book->getAuthors() && $book->getDateRead()){
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($book);
-            $em->flush();
-
-            $this->get('cache')->delete(self::BOOKS_CACHE_KEY);
+            $this->saveBook($book);
 
             $serializer = \JMS\Serializer\SerializerBuilder::create()
                 ->setExpressionEvaluator(new ExpressionEvaluator(new ExpressionLanguage()))
@@ -295,14 +274,13 @@ class BookController extends Controller
     {
         if ($data = $this->get('cache')->fetch(self::BOOKS_CACHE_KEY)) {
             $books = unserialize($data);
-            return $books;
         } else {
             $repository = $this->getDoctrine()->getRepository('AppBundle:Book');
             $books = $repository->findAll();
 
             $this->get('cache')->save(self::BOOKS_CACHE_KEY, serialize($books));
-            return $books;
         }
+        return $books;
     }
 
     /**
@@ -311,6 +289,18 @@ class BookController extends Controller
      */
     protected function checkApiAccess(Request $request)
     {
-        return $request->get('apiKey') == $this->container->getParameter('apiKey');
+        return $request->get('api_key') == $this->container->getParameter('api_key');
+    }
+
+    /**
+     * @param $book
+     */
+    protected function saveBook($book)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($book);
+        $em->flush();
+
+        $this->get('cache')->delete(self::BOOKS_CACHE_KEY);
     }
 }

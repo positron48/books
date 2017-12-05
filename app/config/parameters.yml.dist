@@ -18,4 +18,6 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    apiKey:            ThisTokenIsNotSoSecretChangeIt
+    # A key to use in api methods
+    api_key:            ThisTokenIsNotSoSecretChangeIt
+    site_url: http://127.0.0.1:8000
