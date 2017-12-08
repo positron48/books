@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block date_widget %}
-    <input type="date" class="datepicker" name="{{ full_name }}" id="{{ id }}" value="{{ value }}">
+    <input type="date" class="datepicker" name="{{ full_name }}" id="{{ id }}" value="{{ value }}" {% if required %} required="required" {% endif %}>
 {% endblock %}
 
 {% block checkbox_widget %}

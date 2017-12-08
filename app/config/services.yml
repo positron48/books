@@ -10,6 +10,9 @@ services:
   app.covers_uploader:
     class: AppBundle\FileUploader
     arguments: ['%absolute_dir%', '%covers_upload_dir%']
+  app.books_worker:
+    class: AppBundle\Helpers\BookHelper
+    arguments: ["@service_container", "@doctrine.orm.entity_manager"]
   twig.extension:
     class: AppBundle\Twig\ResizeImageExtension
     tags:

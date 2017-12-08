@@ -1,5 +1,6 @@
 <?php
 namespace AppBundle\Twig;
+
 use AppBundle\Helpers\ImageResizer;
 
 class ResizeImageExtension extends \Twig_Extension
@@ -11,8 +12,8 @@ class ResizeImageExtension extends \Twig_Extension
         );
     }
 
-    public function getResizedImageSRC($imageSrc, $height = 0, $width = 0)
+    public function getResizedImageSRC($imageSrc, $height = 0, $width = 0, $proportional = true)
     {
-        return ImageResizer::resizeImage($imageSrc, $height, $width);
+        return ImageResizer::resizeImage($imageSrc, $height, $width, $proportional);
     }
 }

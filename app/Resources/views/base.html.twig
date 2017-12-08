@@ -17,6 +17,11 @@
                 <ul class="right">
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                         <li>
+                            <a href="{{ path('authors') }}">
+                                {{ 'library.authors.title'|trans({}, 'main') }}
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ path('fos_user_profile_show') }}">
                                 {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
                             </a>

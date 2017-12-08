@@ -35,6 +35,7 @@ class Book
      *      joinColumns={@ORM\JoinColumn(name="book_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="author_id", referencedColumnName="id")}
      *  )
+     * @Assert\NotBlank()
      */
     protected $authors;
 
@@ -243,7 +244,8 @@ class Book
         return $this->authors;
     }
 
-    public function __toString(){
+    public function __toString()
+    {
         return $this->name;
     }
 
@@ -255,7 +257,7 @@ class Book
         $fs = new Filesystem();
         $files = array_filter([$this->cover, $this->file]);
 
-        if(count($files)){
+        if (count($files)) {
             $fs->remove($files);
         }
     }

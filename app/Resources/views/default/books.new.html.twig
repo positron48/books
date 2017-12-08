@@ -56,7 +56,11 @@
         $(document).ready(function(){
             $('.datepicker').pickadate({
                 selectMonths: true,
-                selectYears: 15
+                selectYears: 15,
+                editable: true
+            });
+            $('input.datepicker').on('click', function(){
+                $(this).pickadate('picker').open()
             });
             $('select').material_select();
 

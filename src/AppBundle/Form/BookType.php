@@ -23,12 +23,12 @@ class BookType extends AbstractType
             ->add('date_read', DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => false,
-                'required' => false
+                'required' => true
             ))
             ->add('allow_download')
             ->add('authors', null, ['required' => false]);
     }
-    
+
     /**
      * {@inheritdoc}
      */

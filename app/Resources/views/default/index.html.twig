@@ -4,7 +4,9 @@
 
     <h2>{{ 'library.books.title'|trans({}, 'main') }}</h2>
 
-    <a href="{{ path('new_book') }}">{{ 'library.books.new'|trans({}, 'main') }}</a>
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <a href="{{ path('new_book') }}">{{ 'library.books.new'|trans({}, 'main') }}</a>
+    {% endif %}
 
     <div class="section">
         <div class="row">
@@ -13,7 +15,7 @@
                     <div class="card horizontal">
                         {% if book.cover %}
                             <div class="card-image">
-                                <img src="{{ book.cover|resizeImage(200) }}">
+                                <img src="{{ book.cover|resizeImage(200, 200, false) }}">
                             </div>
                         {% endif %}
                         <div class="card-stacked">
