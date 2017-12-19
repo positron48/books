@@ -9,7 +9,7 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Exclude;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\BookRepository")
  * @ORM\Table(name="books")
  * @ORM\HasLifecycleCallbacks
  * @ExclusionPolicy("none")

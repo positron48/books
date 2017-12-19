@@ -40,9 +40,9 @@ class BookController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            /** @var \AppBundle\Repository\BookRepository $repository */
             $repository = $this->getDoctrine()->getRepository('AppBundle:Book');
-            $books = $repository->findBy(array('name' => $book->getName()));
-            if (!empty($books)) {
+            if ($repository->checkIfNameExists($book->getName())) {
                 return $this->render('default/books.new.html.twig', [
                     'form' => $form->createView(),
                     'message' => 'library.books.exists'

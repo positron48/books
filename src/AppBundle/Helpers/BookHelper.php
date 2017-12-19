@@ -27,8 +27,7 @@ class BookHelper
         if ($data = $this->container->get('cache')->fetch(self::BOOKS_CACHE_KEY)) {
             $books = unserialize($data);
         } else {
-            $repository = $this->em->getRepository('AppBundle:Book');
-            $books = $repository->findAll();
+            $books = $this->em->getRepository('AppBundle:Book')->findAll();
 
             $this->container->get('cache')->save(self::BOOKS_CACHE_KEY, serialize($books));
         }
@@ -40,10 +39,11 @@ class BookHelper
      */
     public function saveBook($book)
     {
-        $this->em->persist($book);
-        $this->em->flush();
+        /** @var \AppBundle\Repository\BookRepository $repository */
+        $repository = $this->em->getRepository('AppBundle:Book');
+        $repository->create($book);
 
-        $this->container->get('cache')->delete(self::BOOKS_CACHE_KEY);
+        $this->clearCache(self::BOOKS_CACHE_KEY);
     }
 
     /**
@@ -51,9 +51,18 @@ class BookHelper
      */
     public function deleteBook($book)
     {
-        $this->em->remove($book);
-        $this->em->flush();
+        /** @var \AppBundle\Repository\BookRepository $repository */
+        $repository = $this->em->getRepository('AppBundle:Book');
+        $repository->delete($book);
 
-        $this->container->get('cache')->delete(self::BOOKS_CACHE_KEY);
+        $this->clearCache(self::BOOKS_CACHE_KEY);
+    }
+
+    /**
+     * @param $cacheKey
+     */
+    protected function clearCache($cacheKey)
+    {
+        $this->container->get('cache')->delete($cacheKey);
     }
 }
